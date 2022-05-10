@@ -6,6 +6,7 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
+    @task_completed = @task.completed ? 'Your task is completed' : 'Your task is not completed.'
   end
 
   def new
@@ -25,8 +26,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.update(task_params)
-
+    @task.update(edit_task_params)
     redirect_to task_path(@task)
   end
 
@@ -42,4 +42,9 @@ private
   def task_params
     params.require(:task).permit(:title, :details)
   end
+
+  def edit_task_params
+    params.require(:task).permit(:title, :details, :completed)
+  end
+
 end
